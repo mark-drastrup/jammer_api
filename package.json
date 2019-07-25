@@ -1,0 +1,32 @@
+{
+  "name": "api_solo_project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "lint": "eslint --fix --ext .js .",
+    "migrate": "knex migrate:latest --knexfile models/knexfile.js",
+    "test": "mocha test && yarn lint"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-problems": "^3.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "knex": "^0.19.1",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
+    "pg": "^7.11.0",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "run.env": "^1.1.0"
+  }
+}
