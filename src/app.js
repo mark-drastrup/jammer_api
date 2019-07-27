@@ -21,6 +21,11 @@ const schema = buildSchema(`
       where: String
       created_at: String
     }
+    input UpdateJam {
+      genre: String
+      when: String
+      where: String
+    }
     type Query {
       getUser(id: Int): [User]
       getAllUsers: [User]
@@ -30,9 +35,13 @@ const schema = buildSchema(`
       getAllJams: [Jam]
     }
     type Mutation {
-      createUser(username: String): [User]
+      createUser(username: String, password: String): [User]
       updateUser(id: Int, username: String, update: String): [User]
       deleteUser(username: String): [User]
+
+      createJam(id: Int, creator_id: Int, genre: String, when: String, where: String): [Jam]
+      updateJam(creator_id: Int, newData: UpdateJam): [Jam]
+      deleteJam(id: Int): [Jam]
     }
 `);
 // Root resolver
@@ -51,9 +60,9 @@ const root = {
     const users = await database("users").select();
     return users;
   },
-  createUser: async ({ username }) => {
+  createUser: async ({ username, password }) => {
     const newUser = await database("users")
-      .insert({ username })
+      .insert({ username, password })
       .returning("*")
       .into("users");
     return newUser;
@@ -83,6 +92,35 @@ const root = {
   getAllJams: async () => {
     const jams = await database("jams").select();
     return jams;
+  },
+  createJam: async ({ id, creator_id, genre, when, where }) => {
+    const jam = await database("jams")
+      .insert({
+        id,
+        creator_id,
+        genre,
+        when,
+        where
+      })
+      .returning("*")
+      .into("jams");
+    return jam;
+  },
+  updateJam: async ({ creator_id, newData }) => {
+    const updatedJam = await database("jams")
+      .where({ creator_id })
+      .update(newData)
+      .returning("*")
+      .into("jams");
+    return updatedJam;
+  },
+  deleteJam: async ({ id }) => {
+    const deletedJam = await database("jams")
+      .where({ id })
+      .del()
+      .returning("*")
+      .into("jams");
+    return deletedJam;
   }
 };
 // Create an express server and a GraphQL endpoint
