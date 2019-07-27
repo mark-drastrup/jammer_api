@@ -9,7 +9,7 @@
     "lint": "eslint --fix --ext .js .",
     "migrate": "knex migrate:latest --knexfile knexfile.js",
     "rollback": "knex migrate:rollback --knexfile knexfile.js ",
-    "test": "mocha test && yarn lint",
+    "test": "mocha test/*.js && yarn lint",
     "createMigration": "yarn knex migrate:make [-- <args>]"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "pg": "^7.11.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
-    "run.env": "^1.1.0"
+    "run.env": "^1.1.0",
+    "supertest": "^4.0.2"
   }
 }
