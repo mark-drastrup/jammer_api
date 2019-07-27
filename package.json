@@ -8,6 +8,7 @@
     "dev": "nodemon ./src/app.js",
     "lint": "eslint --fix --ext .js .",
     "migrate": "knex migrate:latest --knexfile knexfile.js",
+    "seed": "knex seed:run --env development",
     "rollback": "knex migrate:rollback --knexfile knexfile.js ",
     "test": "mocha test/*.js && yarn lint",
     "createMigration": "yarn knex migrate:make [-- <args>]"
