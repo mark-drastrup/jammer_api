@@ -1,15 +1,3 @@
-/* const express = require('express');
-const app = express();
-require('dotenv').config()
-
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome to my page</h1>");
-});
-
-app.listen(4000, () => {
-  console.log("App is running on port 4000");
-}); */
-
 const express = require("express");
 require("dotenv").config();
 const express_graphql = require("express-graphql");
@@ -22,11 +10,24 @@ const schema = buildSchema(`
     type User {
       id: ID
       username: String
+      password: String
+      created_at: String
+    }
+    type Jam {
+      id: ID
+      creator_id: Int
+      genre: String
+      when: String
+      where: String
       created_at: String
     }
     type Query {
-      getUser(username: String): [User]
+      getUser(id: Int): [User]
       getAllUsers: [User]
+      getUserJams(id: Int): [Jam]
+
+      getJam(id: Int): [Jam]
+      getAllJams: [Jam]
     }
     type Mutation {
       createUser(username: String): [User]
@@ -36,9 +37,15 @@ const schema = buildSchema(`
 `);
 // Root resolver
 const root = {
-  getUser: async ({ username }) => {
-    const user = await database("users").where({ username });
+  getUser: async ({ id }) => {
+    const user = await database("users").where({ id });
     return user;
+  },
+  getUserJams: async ({ id }) => {
+    const jams = await database("users")
+      .where({ id })
+      .then(user => database("jams").where({ creator_id: user[0].id }));
+    return jams;
   },
   getAllUsers: async () => {
     const users = await database("users").select();
@@ -67,6 +74,15 @@ const root = {
       .returning("*")
       .into("users");
     return deletedUser;
+  },
+
+  getJam: async ({ id }) => {
+    const jam = await database("jams").where({ creator_id: id });
+    return jam;
+  },
+  getAllJams: async () => {
+    const jams = await database("jams").select();
+    return jams;
   }
 };
 // Create an express server and a GraphQL endpoint
