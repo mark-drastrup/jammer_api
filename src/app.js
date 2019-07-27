@@ -79,6 +79,12 @@ app.use(
     graphiql: true
   })
 );
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
 app.listen(4000, () =>
   console.log("Express GraphQL Server Now Running On localhost:4000/graphql")
 );
