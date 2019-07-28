@@ -13,6 +13,10 @@ const schema = buildSchema(`
       password: String
       created_at: String
     }
+    input UpdateUser {
+      username: String
+      password: String
+    }
     type Jam {
       id: ID
       creator_id: Int
@@ -35,8 +39,8 @@ const schema = buildSchema(`
       getAllJams: [Jam]
     }
     type Mutation {
-      createUser(username: String, password: String): [User]
-      updateUser(id: Int, username: String, update: String): [User]
+      createUser(id: Int, username: String, password: String): [User]
+      updateUser(id: Int, newData: UpdateUser): [User]
       deleteUser(username: String): [User]
 
       createJam(creator_id: Int, genre: String, when: String, where: String): [Jam]
@@ -60,18 +64,17 @@ const root = {
     const users = await database("users").select();
     return users;
   },
-  createUser: async ({ username, password }) => {
+  createUser: async ({ id, username, password }) => {
     const newUser = await database("users")
-      .insert({ username, password })
+      .insert({ id, username, password })
       .returning("*")
       .into("users");
     return newUser;
   },
-  updateUser: async ({ id, username, update }) => {
+  updateUser: async ({ id, newData }) => {
     const updatedUser = await database("users")
       .where({ id })
-      .orWhere({ username })
-      .update({ username: update })
+      .update(newData)
       .returning("*")
       .into("users");
     return updatedUser;
@@ -86,7 +89,7 @@ const root = {
   },
 
   getJam: async ({ id }) => {
-    const jam = await database("jams").where({ creator_id: id });
+    const jam = await database("jams").where({ id });
     return jam;
   },
   getAllJams: async () => {

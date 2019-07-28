@@ -1,22 +1,30 @@
-const faker = require("faker");
-
-const createFakeUser = id => ({
-  id,
-  username: faker.internet.userName(),
-  password: faker.internet.password()
-});
-
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex("users")
     .del()
-    .then(async function() {
+    .then(function() {
       // Inserts seed entries
-      const users = [];
-      const numberOfUsers = 21;
-      for (let i = 1; i < numberOfUsers; i++) {
-        users.push(createFakeUser(i));
-      }
-      await knex("users").insert(users);
+      return knex("users").insert([
+        {
+          id: 1,
+          username: "FunkMaster",
+          password: "Funkmaster9000"
+        },
+        {
+          id: 2,
+          username: "RockMonster",
+          password: "thunderstruck"
+        },
+        {
+          id: 3,
+          username: "PopDiva",
+          password: "rihanna"
+        },
+        {
+          id: 4,
+          username: "MetalGod",
+          password: "sadbuttrue"
+        }
+      ]);
     });
 };
