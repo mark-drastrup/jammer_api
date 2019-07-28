@@ -43,6 +43,8 @@ Run `yarn migrate` to migrate the jams, users and comments tables to your newly 
 
 Run `yarn seed` to seed the database with test jams, users and tables.
 
+Run `yarn dev` to get det server running.
+
 If necessary run `yarn rollback` to drop the tables.
 
 Run `yarn test` to run tests.

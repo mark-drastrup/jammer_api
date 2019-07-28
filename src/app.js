@@ -43,7 +43,7 @@ const schema = buildSchema(`
       updateUser(id: Int, newData: UpdateUser): [User]
       deleteUser(username: String): [User]
 
-      createJam(creator_id: Int, genre: String, when: String, where: String): [Jam]
+      createJam(id: Int, creator_id: Int, genre: String, when: String, where: String): [Jam]
       updateJam(id: Int, newData: UpdateJam): [Jam]
       deleteJam(id: Int): [Jam]
     }
@@ -97,9 +97,10 @@ const root = {
     const jams = await database("jams").select();
     return jams;
   },
-  createJam: async ({ creator_id, genre, when, where }) => {
+  createJam: async ({ id, creator_id, genre, when, where }) => {
     const jam = await database("jams")
       .insert({
+        id,
         creator_id,
         genre,
         when,

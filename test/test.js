@@ -113,7 +113,7 @@ describe("graphql", () => {
     it("should be possible to create a new jam", done => {
       const queryBody = {
         query: `mutation{
-          createJam(creator_id: 4, genre: "Rock", when: "2019-09-09", where: "My house") {
+          createJam(id: 5, creator_id: 4, genre: "Rock", when: "2019-09-09", where: "My house") {
             genre
             when
             where
@@ -132,10 +132,9 @@ describe("graphql", () => {
       });
     });
     it("should be possible to modify a jam", done => {
-      // REMEMBER THAT YOU CHANGED CREATOR_ID TO JAM_ID
       const queryBody = {
         query: `mutation{
-        updateJam(creator_id: 4, newData: {where: "Rock Bar"}) {
+        updateJam(id: 5, newData: {where: "Rock Bar"}) {
             when
             where
             genre
@@ -154,7 +153,6 @@ describe("graphql", () => {
       });
     });
     it("should be possible to delete a jam", done => {
-      // make id manually to pass test!
       const queryBody = {
         query: `mutation{
         deleteJam(id: 5) {
