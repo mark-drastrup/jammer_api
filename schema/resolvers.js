@@ -33,9 +33,9 @@ const root = {
       .into("users");
     return updatedUser;
   },
-  deleteUser: async ({ username }) => {
+  deleteUser: async ({ id }) => {
     const deletedUser = await database("users")
-      .where({ username })
+      .where({ id })
       .del()
       .returning("*")
       .into("users");

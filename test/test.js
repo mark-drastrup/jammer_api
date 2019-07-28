@@ -68,7 +68,7 @@ describe("graphql", () => {
     it("should be possible to delete a user", done => {
       const queryBody = {
         query: `mutation{
-        deleteUser(username: "Jazzhands") {
+        deleteUser(id: 5) {
           id
           username
           password

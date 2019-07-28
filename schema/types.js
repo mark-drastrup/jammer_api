@@ -35,7 +35,7 @@ const schema = buildSchema(`
     type Mutation {
       createUser(id: Int, username: String, password: String): [User]
       updateUser(id: Int, newData: UpdateUser): [User]
-      deleteUser(username: String): [User]
+      deleteUser(id: Int): [User]
 
       createJam(id: Int, creator_id: Int, genre: String, when: String, where: String): [Jam]
       updateJam(id: Int, newData: UpdateJam): [Jam]
