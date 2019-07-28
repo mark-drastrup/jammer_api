@@ -1,7 +1,7 @@
 {
-  "name": "api_solo_project",
+  "name": "jammer",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "license": "MIT",
   "scripts": {
     "start": "node ./src/index.js",

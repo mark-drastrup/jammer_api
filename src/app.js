@@ -44,7 +44,7 @@ const schema = buildSchema(`
       deleteUser(username: String): [User]
 
       createJam(creator_id: Int, genre: String, when: String, where: String): [Jam]
-      updateJam(creator_id: Int, newData: UpdateJam): [Jam]
+      updateJam(id: Int, newData: UpdateJam): [Jam]
       deleteJam(id: Int): [Jam]
     }
 `);
@@ -80,6 +80,7 @@ const root = {
     return updatedUser;
   },
   deleteUser: async ({ username }) => {
+    // REMEMBER TO CHANGE TO USER ID AND NOT PASSWORD
     const deletedUser = await database("users")
       .where({ username })
       .del()
@@ -108,9 +109,9 @@ const root = {
       .into("jams");
     return jam;
   },
-  updateJam: async ({ creator_id, newData }) => {
+  updateJam: async ({ id, newData }) => {
     const updatedJam = await database("jams")
-      .where({ creator_id })
+      .where({ id })
       .update(newData)
       .returning("*")
       .into("jams");

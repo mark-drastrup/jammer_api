@@ -132,6 +132,7 @@ describe("graphql", () => {
       });
     });
     it("should be possible to modify a jam", done => {
+      // REMEMBER THAT YOU CHANGED CREATOR_ID TO JAM_ID
       const queryBody = {
         query: `mutation{
         updateJam(creator_id: 4, newData: {where: "Rock Bar"}) {
