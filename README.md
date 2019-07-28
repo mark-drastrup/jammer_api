@@ -11,7 +11,7 @@ This was created during my time as a student at Code Chrysalis.
 
 ## Introduction
 
-Jammer is a Graphql API that connects musicians who seeks other musicians to jam with. A user can create a "jam" and descripe the following details:
+Jammer is an API built with GraphQL that connects musicians who seeks other musicians to jam with. A user can create a "jam" and descripe the following details:
 
 - The genre the musician is interested in playing
 - Where the jam will take place
