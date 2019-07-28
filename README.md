@@ -19,8 +19,7 @@ Jammer is a Graphql API that connects musicians who seeks other musicians to jam
 
 Other users will then have to opportunity to comment on the jam and let the creator know that they will be attending the jam.
 
-REMEMBER ROADMAP
-REMEMBER TO MENTION THAT POSTGRES IS REQUIRED
+Note that it is required to have Postgres installed to run this project.
 
 ## Installation
 
@@ -237,7 +236,7 @@ mutation{
 
 ## Resources
 
-- [Postgres Documetation](https://www.postgresql.org/docs/)
+- [Postgres Documentation](https://www.postgresql.org/docs/)
 - [Knex Documentation](http://knexjs.org/)
 - [GraphQL Documentation](https://graphql.org/learn/)
 - [Express v4.x Documentation](https://expressjs.com/en/api.html)

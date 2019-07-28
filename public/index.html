@@ -4,10 +4,294 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
     <title>Jammer API</title>
   </head>
-  <body>
-    <h1>Welcome to my page</h1>
-    <p>This is my solo api project</p>
+  <body class="container">
+    <h1 id="jammerjamwithmusiciansnearyou">Jammer - Jam with musicians near you</h1>
+    <h2 id="tableofcontents">Table of Contents</h2>
+
+    <ol>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#queriesmutations">Queries &amp; mutations</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ol>
+
+    <h2 id="introduction">Introduction</h2>
+
+    <p>Jammer is a Graphql API that connects musicians who seeks other musicians
+      to jam with. A user can create a "jam" and descripe the following details:</p>
+    <ul>
+      <li>The genre the musician is interested in playing</li>
+
+      <li>Where the jam will take place</li>
+
+      <li>When the jam will take place</li>
+    </ul>
+
+    <p>Other users will then have to opportunity to comment on the jam and let
+      the creator know that they will be attending the jam.</p>
+
+    <p>Note that it is required to have Postgres installed to run this project.</p>
+    <p>Play around with the API by going to the GraphQL <a href="/graphql"
+        target="_blank">sandbox</a></p>
+
+    <p>Check the project out on <a
+        href="https://github.com/mark-drastrup/jammer_api" target="_blank">GitHub</a></p>
+    <h2 id="installation">Installation</h2>
+
+    <p>Run <code>yarn</code> to install all dependencies.</p>
+
+    <p>Create a file named <code>.env</code>, where you will put all the
+      database credentials. Copy and paste the following contents into the
+      <code>.env</code> file and fill out the <code>YOURVALUE</code> with your
+      own credentials:</p>
+
+    <pre><code>HOST=localhost
+PORT=3000
+PGDATABASE="jammer"
+PGHOST=localhost
+PGPORT=5432
+DBUSER=YOURVALUE
+PGPASSWORD=YOURVALUE 
+</code></pre>
+
+    <p>Run <code>yarn createDatabase</code> to create the Jammer database.</p>
+    <p>Run <code>yarn migrate</code> to migrate the jams, users and comments
+      tables to your newly created database.</p>
+
+    <p>Run <code>yarn seed</code> to seed the database with test jams, users and
+      tables.</p>
+
+    <p>Run <code>yarn dev</code> to get det server running.</p>
+
+    <p>If necessary run <code>yarn rollback</code> to drop the tables.</p>
+
+    <p>Run <code>yarn test</code> to run tests.</p>
+
+    <h2 id="queriesmutations">Queries &amp; mutations</h2>
+
+    <p>The Jammer API uses Graphql to make CRUD operations on the database. The
+      tables contains following fields:</p>
+
+    <ul>
+      <li>jams table:
+        <ul>
+          <li>id</li>
+
+          <li>creator_id (foreign key points to user id)</li>
+
+          <li>genre</li>
+
+          <li>when</li>
+
+          <li>where</li>
+
+          <li>created_at</li></ul>
+      </li>
+
+      <li>users table
+
+
+        <ul>
+          <li>id</li>
+
+          <li>username</li>
+
+          <li>password</li>
+
+          <li>created_at</li></ul>
+      </li>
+    </ul>
+
+    <p>The API exposes the following operations:</p>
+
+    <h3 id="queries">Queries</h3>
+
+    <p><code>getUser</code>: Returns a specific user from the database based on
+      the users id.</p>
+
+    <pre><code>{
+  getUser(id: 1) {
+    id
+    username
+    password
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>getAllUsers</code>: Returns all users from the database.</p>
+
+    <pre><code>{
+  getAllUsers {
+    id
+    username
+    password
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>getUserJams</code>: Returns a list of all jams a specific user has
+      created based on user id.</p>
+
+    <pre><code>{
+  getUserJams(id: 1){
+    id
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>getJam</code>: Returns details about a jam based on jam id.</p>
+    <pre><code>{
+  getJam(id: 1){
+    id
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>getAllJams</code>: Returns a list of all jams.</p>
+
+    <pre><code>{
+  getAllJams{
+    id
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+}
+</code></pre>
+
+    <h3 id="mutations">Mutations</h3>
+
+    <p><code>createUser</code>: Creates a new user and returns the newly created
+      user.</p>
+
+    <pre><code>mutation{
+  createUser(username: "James", password:"hetfield") {
+    id
+    username
+    password
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>updateUser</code>: Updates a user's username and/or password and
+      returns the updated user. The mutations takes two arguments: </p>
+
+    <ul>
+      <li>id: The user's id</li>
+
+      <li>newData: An object that contains the keys and values of the fields
+        that should be updated.</li>
+    </ul>
+
+    <pre><code>mutation{
+  updateUser(id: 2, newData: {username: "James H", password: "yeah"}) {
+    id
+    username
+    password
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>deleteUser</code>: Deletes a user based on the user's id and
+      returns the deleted user object.</p>
+
+    <pre><code>mutation{
+  deleteUser(id: 2){
+    id
+    username
+    password
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>createJam</code>: Creates a new jam and returns the newly created
+      jam. Note that creator_id is a foreign key, that points to the id of the
+      user who creates the jam</p>
+
+    <pre><code>mutation{
+  createJam(creator_id: 3, genre: "Jazz", when: "2019-07-30", where: "Shibuya Jazz Club"){
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+}
+</code></pre>
+
+    <p><code>updateJam</code>: Updates a jam's information such as <code>genre</code>,
+      <code>when</code> and <code>where</code> and returns the updated jam. The
+      mutations takes two arguments:</p>
+
+    <ul>
+      <li>id: The jams's id</li>
+
+      <li>newData: An object that contains the keys and values of the fields
+        that should be updated.</li>
+    </ul>
+
+    <pre><code>mutation{
+  updateJam(id: 1, newData: {where: "Rock House"}){
+    id
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+</code></pre>
+
+    <p><code>deleteJam</code>: Deletes a jam based on the jam's id and returns
+      the deleted jam object.</p>
+
+    <pre><code>mutation{
+  deleteJam(id: 1){
+    id
+    creator_id
+    genre
+    when
+    where
+    created_at
+  }
+}
+</code></pre>
+
+    <h2 id="resources">Resources</h2>
+
+    <ul>
+      <li><a href="https://www.postgresql.org/docs/" target="_blank">Postgres
+          Documentation</a></li>
+      <li><a href="http://knexjs.org/" target="_blank">Knex Documentation</a></li>
+      <li><a href="https://graphql.org/learn/" target="_blank">GraphQL
+          Documentation</a></li>
+      <li><a href="https://expressjs.com/en/api.html" target="_blank">Express
+          v4.x Documentation</a></li>
+      <li><a href="https://github.com/graphql/express-graphql" target="_blank">Express-GraphQL
+          Documentation</a></li>
+      <li><a href="http://chaijs.com/api/" target="_blank">Chai Assertion
+          Library</a></li>
+    </ul>
   </body>
 </html>
